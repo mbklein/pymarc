@@ -218,7 +218,10 @@ class Record(object):
         for field in self.fields:
             field_data = field.as_marc()
             if self.leader[9] == 'a' or self.force_utf8:
-              field_data = field_data.encode('utf-8')
+              try:
+                field_data = field_data.encode('utf-8')
+              except UnicodeDecodeError:
+                pass
             fields += field_data
             if field.tag.isdigit():
                 directory += '%03d' % int(field.tag)
